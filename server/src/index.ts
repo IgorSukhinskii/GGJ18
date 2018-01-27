@@ -110,13 +110,13 @@ wss.on('connection', (ws: WebSocket) => {
                         if (player.id != id) {
                             player.socket.send(JSON.stringify({
                                 type: "join",
-                                payload: { name: payload.name }
+                                payload: { players: games[roomCode].players.map(p => p.name) }
                             }))
                         }
                     });
                     ws.send(JSON.stringify({
                         type: "joinResult",
-                        payload: { result: "success" }
+                        payload: { result: "success", players: games[roomCode].players.map(p => p.name) }
                     }));
                 } else {
                     ws.send(JSON.stringify({
@@ -184,6 +184,10 @@ wss.on('connection', (ws: WebSocket) => {
         }
     });
 });
+
+wss.on('error', (err) => {
+    // ignore websocket errors
+})
 
 //start our server
 const PORT = process.env.PORT || 8999;

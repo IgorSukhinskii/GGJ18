@@ -8,7 +8,7 @@ export interface CreatePayload {
 }
 
 export interface JoinPayload {
-    name: string
+    players: Array<string>
 }
 
 export interface StartPayload {
