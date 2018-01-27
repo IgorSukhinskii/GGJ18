@@ -110,13 +110,17 @@ wss.on('connection', (ws: WebSocket) => {
                         if (player.id != id) {
                             player.socket.send(JSON.stringify({
                                 type: "join",
-                                payload: { players: games[roomCode].players.map(p => p.name) }
+                                payload: { players: games[roomCode].players.map(p =>
+                                    ({ name: p.name, score: p.score}))
+                                }
                             }))
                         }
                     });
                     ws.send(JSON.stringify({
                         type: "joinResult",
-                        payload: { result: "success", players: games[roomCode].players.map(p => p.name) }
+                        payload: { result: "success", players: games[roomCode].players.map(p =>
+                            ({ name: p.name, score: p.score}))
+                        }
                     }));
                 } else {
                     ws.send(JSON.stringify({

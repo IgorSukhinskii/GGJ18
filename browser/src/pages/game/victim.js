@@ -22,14 +22,15 @@ class Victim extends Component {
     const cy = gridToScreenCoordinates(victimPosition.y, maze.height);
     return (
       <div className="victim">
-          <svg>
-            <path width="250" height="250" stroke="black" d={mazeToSvgPath(maze)} />
+          <svg width="250" height="250">
+            <path stroke="black" d={mazeToSvgPath(maze)} />
             <circle fill="red" r="5" cx={cx} cy={cy} />
           </svg>
           <Button onClick={this.onNorthButtonClick.bind(this)} label="N" />
           <Button onClick={this.onSouthButtonClick.bind(this)} label="S" />
           <Button onClick={this.onEastButtonClick.bind(this)} label="E" />
           <Button onClick={this.onWestButtonClick.bind(this)} label="W" />
+          <Button onClick={this.props.onRoundEnd} label="die" />
       </div>
     );
   }
