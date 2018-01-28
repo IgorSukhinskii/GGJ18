@@ -170,6 +170,9 @@ wss.on('connection', (ws: WebSocket) => {
                     roomCode = rc;
                     id = games[roomCode].players.length;
                     games[roomCode].players.push({id, name: payload.name, score: 0, socket: ws});
+                    if (games[roomCode].players.length >= 8) {
+                        games[roomCode].full = true;
+                    }
                     forEachPlayer(roomCode, player => {
                         if (player.id != id) {
                             player.socket.send(JSON.stringify({

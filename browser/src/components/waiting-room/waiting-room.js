@@ -13,7 +13,7 @@ class WaitingRoom extends Component {
 				<ul className="waiting-room__players">
 					{this.props.players.map((player, i) => (<li key={i} className="waiting-room__player">{player.name}</li>))}
 				</ul>
-				<Button label="start" onClick={this.props.onStartGame} />
+				{this.props.players.length >= 4 && (<Button label="start" onClick={this.props.onStartGame} />)}
 			</div>
 		);
 	}
