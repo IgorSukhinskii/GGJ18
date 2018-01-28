@@ -1,3 +1,81 @@
+.victim {
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    background: black;
+}
+
+.victim__map {
+    width: 1000px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 1000px;
+}
+
+.victim__grid {
+    stroke: #66B848;
+    stroke-width: 0.5px;
+}
+
+.victim__maze {
+    stroke: #66B848;
+    stroke-width: 12px;
+    stroke-linecap: round;
+}
+
+.victim__player {
+    fill: #66B848;
+}
+
+.victim__health {
+    width: 120px;
+    height: 40px;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.victim__heart {
+    width: 40px;
+    height: 40px;
+    margin: 0;
+    display:inline-block;
+}
+
 .victim__buttons {
-    background: #091915;
+    width: 180px;
+    height: 180px;
+    position: absolute;
+    bottom: 0;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+}
+
+.victim__button {
+    width: 60px;
+    height: 60px;
+    background: gray;
+    position: absolute;
+}
+
+.victim__button--n {
+    top: 0;
+    left: 60px;
+}
+
+.victim__button--s {
+    bottom: 0;
+    left: 60px;
+}
+
+.victim__button--e {
+    top: 60px;
+    right: 0;
+}
+
+.victim__button--w {
+    top: 60px;
+    left: 0;
 }
