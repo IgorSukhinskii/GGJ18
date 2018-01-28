@@ -12,10 +12,10 @@ export function mazeToSvgPath(maze) {
     for (let x = 0; x < maze.width; x++) {
         for (let y = 0; y < maze.height; y++) {
             const cell = maze.cells[x][y];
+            const cx = gridToScreenCoordinates(cell.x);
+            const cy = gridToScreenCoordinates(cell.y, maze.height);
             for (let d of [1, 2, 4, 8]) {
                 if (!(cell.neighbors & d)) {
-                    const cx = gridToScreenCoordinates(cell.x);
-                    const cy = gridToScreenCoordinates(cell.y, maze.height);
                     let line = "";
                     const delta = sizePerCell * 0.5;
                     switch(d) {
@@ -34,6 +34,11 @@ export function mazeToSvgPath(maze) {
                         default:
                     }
                     result += `M ${cx},${cy} ${line}`;
+                }
+            }
+            for (let c of cell.collectibles) {
+                if (c.type === "exit") {
+                    result += `M ${cx},${cy} m -2,2 v -4 h 4 v 4 h -4 `;
                 }
             }
         }

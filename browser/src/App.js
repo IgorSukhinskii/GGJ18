@@ -3,6 +3,8 @@ import Start from './pages/start';
 import WaitingRoom from './pages/waitingRoom';
 import JoinGame from './pages/joinGame';
 import VictimGame from './pages/game/victim';
+import OutsiderGame from './pages/game/outsider';
+import Scores from './pages/scores';
 
 class App extends Component {
   constructor() {
@@ -33,10 +35,14 @@ class App extends Component {
         players: data.payload.players
       })
     } else if (data.type === 'joinResult') {
-      this.setState({
-        currentPage: 'waitingRoom',
-        players: data.payload.players
-      })
+      if (data.payload.result === 'success') {
+        this.setState({
+          currentPage: 'waitingRoom',
+          players: data.payload.players
+        });
+      } else {
+        alert('Cannot connect to the room');
+      }
     } else if (data.type === 'start') {
       this.setState({
         currentPage: 'game',
@@ -48,6 +54,20 @@ class App extends Component {
       this.setState({
         victimPosition: data.payload.position
       });
+    } else if (data.type === 'finishRound') {
+      const { killer, result, players, victim } = data.payload;
+      this.setState({
+        currentPage: 'scores',
+        killer,
+        result,
+        players,
+        victim
+      }) 
+    } else if (data.type === 'endGame') {
+      const { winner } = data.payload;
+      this.setState({
+        winner
+      })
     }
   }
 
@@ -103,6 +123,13 @@ class App extends Component {
     })
   }
 
+  onRoundEnd() {
+    this.sendMessage({
+      type: "finishRound",
+      payload: {}
+    })
+  }
+
   render() {
     return (
       <div className="container">
@@ -124,8 +151,22 @@ class App extends Component {
         {this.state.currentPage === 'game' && this.state.playerType === 'victim' && (
           <VictimGame
             onMoveButtonClick={this.move.bind(this)}
+            onRoundEnd={this.onRoundEnd.bind(this)}
             maze={this.state.maze}
             victimPosition={this.state.victimPosition} />
+        )}
+        {this.state.currentPage === 'game' && this.state.playerType !== 'victim' && (
+          <OutsiderGame
+            maze={this.state.maze}
+            victimPosition={this.state.victimPosition} />
+        )}
+        {this.state.currentPage === 'scores' && (
+          <Scores
+            killer={this.state.killer}
+            result={this.state.result}
+            victim={this.state.victim}
+            players={this.state.players}
+            winner={this.state.winner} />
         )}
       </div>
     );
