@@ -159,7 +159,7 @@ wss.on('connection', (ws: WebSocket) => {
                 games[roomCode].players.push({id, name: payload.name, score: 0, socket: ws});
                 ws.send(JSON.stringify({
                     type: "create",
-                    payload: { roomCode }
+                    payload: { roomCode, players: games[roomCode].players.map(p => ({ name: p.name, score: p.score})) }
                 }));
             } else if (msg.type == "join") {
                 const payload = msg.payload as JoinPayload;
