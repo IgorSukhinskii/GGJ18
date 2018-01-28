@@ -17,12 +17,11 @@ class Victim extends Component {
           <svg className="victim__map victim__map--outsider">
             <path className="victim__grid" d={generateGrid(maze)} />
             <path className="victim__maze" d={mazeToSvgPath(maze)} />
-            <circle className="victim__player" r="16" cx={cx} cy={cy} />
+            <circle className="victim__player victim__player--outsider" r="16" cx={cx} cy={cy} />
             {collectibles}
           </svg>
           <div className="victim__top">
             <img className="victim__icon" src={playerType === "savior" ? saviorIcon :killerIcon} alt="" />
-            <div className="victim__timer">01:55</div>
           </div>
       </div>
     );

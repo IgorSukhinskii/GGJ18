@@ -37,6 +37,10 @@
     fill: #66B848;
 }
 
+.victim__player--outsider {
+    fill: #c9660a;
+}
+
 .victim__cover {
     width: 200vw;
     height: 200vw;

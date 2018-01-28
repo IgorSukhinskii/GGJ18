@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Countdown from 'react-countdown-now';
 import './victim.css';
 import { mazeToSvgPath, gridToScreenCoordinates, generateGrid } from '../../utils/mazeToSvgPath';
 import heart from './heart.svg';
@@ -21,6 +22,15 @@ class Victim extends Component {
   }
   onWestButtonClick() {
     this.props.onMoveButtonClick("W");
+  }
+  timerRenderer({ hours, minutes, seconds, completed }) {
+    if (completed) {
+      // die
+      this.props.onRoundEnd();
+      return '00:00';
+    } else {
+      return `${("00"+minutes).slice(-2)}:${("00"+seconds).slice(-2)}`
+    }
   }
   render() {
     console.log(this.props);
@@ -48,7 +58,9 @@ class Victim extends Component {
           <img className="victim__radar-pointer" src={radarPointer} alt="radar pointer" />
           <div className="victim__top">
             <img className="victim__icon" src={victimIcon} alt="" />
-            <div className="victim__timer">01:55</div>
+            <div className="victim__timer">
+              <Countdown date={Date.now() + 120000} renderer={this.timerRenderer.bind(this)} />
+            </div>
             <div className="victim__health">{hearts.map((h, i) => (<img key={i} alt="❤" src={h} className="victim__heart"/>))}</div>
           </div>
           <div className="victim__buttons-container">
