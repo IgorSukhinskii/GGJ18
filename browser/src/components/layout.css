@@ -15,8 +15,14 @@
 }
 
 .layout__logo-pic {
-    width: 100%;
+    width: 500px;
     margin: 0 auto;
+}
+
+@media (max-width: 500px) {
+    .layout__logo-pic {
+        width: 100%;
+    }
 }
 
 .layout__container {
