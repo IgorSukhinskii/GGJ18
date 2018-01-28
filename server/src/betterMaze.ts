@@ -32,8 +32,14 @@ function move(pos: Position, d: Direction): Position {
     return {x, y};
 }
 
+export interface Collectible {
+    type: "exit" | "trap",
+    owner: number
+}
+
 export interface Cell extends Position {
     neighbors: Direction,
+    collectibles: Array<Collectible>,
     touched: number
 }
 
@@ -50,7 +56,7 @@ export function generateMaze(width: number, height: number): Maze {
     for (let x = 0; x < width; x++) {
         cells.push(new Array(height));
         for (let y = 0; y < height; y++) {
-            cells[x][y] = {neighbors: 0, x, y, touched: 0};
+            cells[x][y] = {neighbors: 0, x, y, touched: 0, collectibles: []};
         }
     }
 
@@ -59,6 +65,19 @@ export function generateMaze(width: number, height: number): Maze {
     carvePassagesFrom({x: 0, y: 0}, maze);
 
     return maze;
+}
+
+export function placeCollectibles(maze: Maze, numberOfPlayers: number, killer: number, victim: number) {
+    // first, place the exits for each savior
+    for (let i = 0; i < numberOfPlayers; i++) {
+        if (i != killer && i != victim) {
+            // generate exit at a random point in a labyrinth
+            const x = Math.floor(Math.random() * maze.width);
+            const y = Math.floor(Math.random() * maze.height);
+            // place the exit with number i
+            maze.cells[x][y].collectibles.push({type: "exit", owner: i});
+        }
+    }
 }
 
 export function toSvgPath(maze: Maze): string {
