@@ -41,8 +41,6 @@
 }
 
 .start__button {
-  width: 100%;
-  margin-top: 30px;
   height: 50px;
   background: #AAE46F;
   border-radius: 10px;
@@ -54,6 +52,8 @@
   padding: 15px;
   box-sizing: border-box;
   line-height: 20px;
+  width: 80%;
+  margin: 30px auto 0;
 }
 
 .start__button::after {
