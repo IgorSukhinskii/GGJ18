@@ -57,6 +57,7 @@ function startNewRound(roomCode: string) {
         x: Math.floor(Math.random() * games[roomCode].maze.width),
         y: Math.floor(Math.random() * games[roomCode].maze.height),
     };
+    games[roomCode].victimHealth = maxHealth;
     // TODO: place exits in the maze
     placeCollectibles(
         games[roomCode].maze,
@@ -71,6 +72,7 @@ function startNewRound(roomCode: string) {
                 playerType: player.type,
                 maze: games[roomCode].maze,
                 victimPosition: games[roomCode].victimPosition,
+                victimHealth: games[roomCode].victimHealth
             }
         }));
     });
@@ -125,6 +127,10 @@ const scorePerSave = 200;
 const scorePerOwnSave = 300;
 const scorePerSurvive = 200;
 
+const maxHealth = 3;
+const trapDamage = 1;
+const medkitHeal = 1;
+
 wss.on('connection', (ws: WebSocket) => {
     let id = 0;
     let roomCode = "";
@@ -146,6 +152,7 @@ wss.on('connection', (ws: WebSocket) => {
                     killer: 0,
                     maze: {cells: [], width: 0, height: 0},
                     victimPosition: {x: 0, y: 0},
+                    victimHealth: maxHealth,
                     collectables: []
                 };
                 id = games[roomCode].players.length;
@@ -206,13 +213,25 @@ wss.on('connection', (ws: WebSocket) => {
                 for (let c of games[roomCode].maze.cells[nx][ny].collectibles) {
                     if (c.type == "exit") {
                         finishRound(roomCode, {exitNumber: c.owner});
+                    } else if (c.type == "trap") {
+                        games[roomCode].victimHealth -= trapDamage;
+                        if (games[roomCode].victimHealth <= 0) {
+                            finishRound(roomCode, {});
+                        }
+                    } else if (c.type == "medkit") {
+                        games[roomCode].victimHealth += medkitHeal;
+                        if (games[roomCode].victimHealth > maxHealth) {
+                            games[roomCode].victimHealth = maxHealth
+                        }
                     }
                 }
                 forEachPlayer(roomCode, player => {
                     player.socket.send(JSON.stringify({
                         type: "move",
                         payload: {
-                            position: games[roomCode].victimPosition
+                            position: games[roomCode].victimPosition,
+                            maze: games[roomCode].maze,
+                            victimHealth: games[roomCode].victimHealth
                         }
                     }));
                 })

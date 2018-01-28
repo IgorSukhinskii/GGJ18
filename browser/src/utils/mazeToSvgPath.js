@@ -39,6 +39,8 @@ export function mazeToSvgPath(maze) {
             for (let c of cell.collectibles) {
                 if (c.type === "exit") {
                     result += `M ${cx},${cy} m -2,2 v -4 h 4 v 4 h -4 `;
+                } else if (c.type === "trap") {
+                    result += `M ${cx},${cy} m -2,-2 l 4,4 M ${cx},${cy} m 2,-2 l -4,4 `
                 }
             }
         }

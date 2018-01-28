@@ -8,6 +8,7 @@ export interface Game {
     victim: number,
     killer: number,
     victimPosition: Position,
+    victimHealth: number,
     collectables: Array<Position>
 }
 

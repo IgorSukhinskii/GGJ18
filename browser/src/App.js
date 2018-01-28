@@ -16,7 +16,8 @@ class App extends Component {
       players: [],
       playerType: "savior",
       maze: {},
-      victimPosition: {}
+      victimPosition: {},
+      victimHealth: 0
     }
     this.ws = new WebSocket(`ws://${window.location.hostname}:8999`);
     this.ws.onmessage = (evt) => this.onWsMessage(JSON.parse(evt.data));
@@ -48,11 +49,14 @@ class App extends Component {
         currentPage: 'game',
         playerType: data.payload.playerType,
         maze: data.payload.maze,
-        victimPosition: data.payload.victimPosition
+        victimPosition: data.payload.victimPosition,
+        victimHealth: data.payload.victimHealth
       });
     } else if (data.type === 'move') {
       this.setState({
-        victimPosition: data.payload.position
+        victimPosition: data.payload.position,
+        maze: data.payload.maze,
+        victimHealth: data.payload.victimHealth
       });
     } else if (data.type === 'finishRound') {
       const { killer, result, players, victim } = data.payload;
