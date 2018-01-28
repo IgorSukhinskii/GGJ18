@@ -93,11 +93,13 @@ function finishRound(roomCode: string, payload: FinishRoundPayload) {
             player.score += scorePerSurvive;
         }
     });
+    const players = games[roomCode].players.map(p =>({ name: p.name, score: p.score, playerType: p.type }));
+    players.sort((a, b) => b.score - a.score);
     forEachPlayer(roomCode, player => {
         player.socket.send(JSON.stringify({
             type: "finishRound",
             payload: {
-                players: games[roomCode].players.map(p =>({ name: p.name, score: p.score, playerType: p.type })),
+                players,
                 result: payload.exitNumber != undefined ? "escape" : "die",
                 exitNumber: payload.exitNumber,
                 victim: games[roomCode].players[games[roomCode].victim].name,
@@ -111,7 +113,7 @@ function finishRound(roomCode: string, payload: FinishRoundPayload) {
         forEachPlayer(roomCode, player => {
             player.socket.send(JSON.stringify({
                 type: "endGame",
-                payload: { winner: "Igor" }
+                payload: { winner: players[0].name }
             }));
         });
     } else {
