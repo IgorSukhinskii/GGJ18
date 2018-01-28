@@ -163,8 +163,9 @@ wss.on('connection', (ws: WebSocket) => {
                 }));
             } else if (msg.type == "join") {
                 const payload = msg.payload as JoinPayload;
-                if (games[payload.roomCode] != undefined && !games[payload.roomCode].full) {
-                    roomCode = payload.roomCode;
+                const rc = payload.roomCode.toUpperCase();
+                if (games[rc] != undefined && !games[rc].full) {
+                    roomCode = rc;
                     id = games[roomCode].players.length;
                     games[roomCode].players.push({id, name: payload.name, score: 0, socket: ws});
                     forEachPlayer(roomCode, player => {
