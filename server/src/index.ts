@@ -225,6 +225,8 @@ wss.on('connection', (ws: WebSocket) => {
                         }
                     }
                 }
+                games[roomCode].maze.cells[nx][ny].collectibles = [];
+
                 forEachPlayer(roomCode, player => {
                     player.socket.send(JSON.stringify({
                         type: "move",
@@ -241,11 +243,9 @@ wss.on('connection', (ws: WebSocket) => {
             }
         }
     });
-});
 
-wss.on('error', (err) => {
-    // ignore websocket errors
-})
+    ws.on('error', () => console.log('Error, probably disconnect'));
+});
 
 //start our server
 const PORT = process.env.PORT || 8999;
