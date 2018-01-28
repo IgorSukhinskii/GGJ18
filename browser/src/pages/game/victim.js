@@ -28,7 +28,7 @@ class Victim extends Component {
             <circle fill="red" r="5" cx={cx} cy={cy} />
           </svg>
           <p className="victim__health">{this.props.victimHealth}</p>
-              <div className="victim__buttons">
+          <div className="victim__buttons">
 			  <div className="victim__button" onClick={this.onNorthButtonClick.bind(this)}>N</div>
 			  <div className="victim__button" onClick={this.onSouthButtonClick.bind(this)}>S</div>
 			  <div className="victim__button" onClick={this.onEastButtonClick.bind(this)}>E</div>
