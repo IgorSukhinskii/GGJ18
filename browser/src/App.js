@@ -132,7 +132,7 @@ class App extends Component {
 
   render() {
     return (
-      <div>
+      <div className="container">
         {this.state.currentPage === 'start' && (
           <Start
             sendMessage={this.sendMessage.bind(this)}

@@ -22,12 +22,15 @@ class Start extends Component {
     return (
       <div className="start">
         <header className="start__header">
-          <h1 className="start__title">Murder Transmission House Maze Escape Competitive Cooperative Social Experience with Mobile Devices Multiplayer Party: The Game</h1>
+          <h1 className="start__logo">
+            Murder Game
+          </h1>
         </header>
         <div className="start__container">
-          <input type="text" onChange={this.onNameInputChange.bind(this)} />
-          <Button onClick={this.onJoinButtonClick.bind(this)} label="Join Game" />
-          <Button onClick={this.onStartButtonClick.bind(this)} label="Start Game" />
+          <label htmlFor="input-name" className="start__label">Enter Nickname</label>
+          <input type="text" id="input-name" className="start__input" onChange={this.onNameInputChange.bind(this)} />
+          <Button onClick={this.onJoinButtonClick.bind(this)} className="start__button" label="Join Game" />
+          <Button onClick={this.onStartButtonClick.bind(this)} className="start__button" label="Start Game" />
         </div>
       </div>
     );
