@@ -17,7 +17,8 @@ class App extends Component {
       playerType: "savior",
       maze: {},
       victimPosition: {},
-      victimHealth: 0
+      victimHealth: 0,
+      playerNumber: 0
     }
     this.ws = new WebSocket(`ws://${window.location.hostname}:8999`);
     this.ws.onmessage = (evt) => this.onWsMessage(JSON.parse(evt.data));
@@ -29,7 +30,8 @@ class App extends Component {
       this.setState({
         roomCode: data.payload.roomCode,
         currentPage: 'waitingRoom',
-        players: data.payload.players
+        players: data.payload.players,
+        playerNumber: 0
       })
     } else if (data.type === 'join') {
       this.setState({
@@ -39,7 +41,8 @@ class App extends Component {
       if (data.payload.result === 'success') {
         this.setState({
           currentPage: 'waitingRoom',
-          players: data.payload.players
+          players: data.payload.players,
+          playerNumber: data.payload.playerNumber
         });
       } else {
         alert('Cannot connect to the room');
@@ -164,7 +167,8 @@ class App extends Component {
           <OutsiderGame
             maze={this.state.maze}
             victimPosition={this.state.victimPosition}
-            playerType={this.state.playerType} />
+            playerType={this.state.playerType}
+            playerNumber={this.state.playerNumber} />
         )}
         {this.state.currentPage === 'scores' && (
           <Scores

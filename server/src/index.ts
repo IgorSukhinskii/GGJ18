@@ -185,8 +185,10 @@ wss.on('connection', (ws: WebSocket) => {
                     });
                     ws.send(JSON.stringify({
                         type: "joinResult",
-                        payload: { result: "success", players: games[roomCode].players.map(p =>
-                            ({ name: p.name, score: p.score}))
+                        payload: {
+                            result: "success",
+                            players: games[roomCode].players.map(p => ({ name: p.name, score: p.score})),
+                            playerNumber: id
                         }
                     }));
                 } else {

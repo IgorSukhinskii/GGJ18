@@ -8,10 +8,10 @@ import renderCollectibles from '../../utils/renderCollectibles';
 class Victim extends Component {
   render() {
     console.log(this.props);
-    const { victimPosition, maze, playerType } = this.props;
+    const { victimPosition, maze, playerType, playerNumber } = this.props;
     const cx = gridToScreenCoordinates(victimPosition.x);
     const cy = gridToScreenCoordinates(victimPosition.y, maze.height);
-    const collectibles = renderCollectibles(maze);
+    const collectibles = renderCollectibles(maze, playerNumber, playerType);
     return (
       <div className="victim">
           <svg className="victim__map victim__map--outsider">

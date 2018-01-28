@@ -2,7 +2,7 @@ import React from 'react';
 import {gridToScreenCoordinates} from './mazeToSvgPath';
 import './collectibles.css';
 
-export default function renderCollectibles(maze) {
+export default function renderCollectibles(maze, playerNumber, playerType) {
   const colors = ["#0F3D9C", "#A9AC03", "#0B9838", "#990525"];
   const result = [];
   for (let x = 0; x < maze.width; x++) {
@@ -12,15 +12,17 @@ export default function renderCollectibles(maze) {
         if (c.type === "exit") {
           const cx = gridToScreenCoordinates(x - 0.5) + 4;
           const cy = gridToScreenCoordinates(y + 0.5, maze.height) + 6;
-          result.push((
-            <svg key={x*20 + y} viewBox="0 0 74.87 74.87" width="36" height="36" x={cx} y={cy}>
-              <circle cx="37.44" cy="37.44" r="32.44" stroke={colors[c.owner % colors.length]} strokeWidth="10" fill="none" strokeMiterlimit="10"/>
-              <circle cx="29.91" cy="9.31" r="7.55" fill="#fbfbfc"/>
-              <path d="M10.51 31.95h11.85l10.79-11.86h20.48l6.46 9.71" fill="none" strokeMiterlimit="10" stroke="#fbfbfc" strokeLinecap="round" strokeWidth="5"/>
-              <path strokeWidth="9" stroke="#fbfbfc" strokeLinecap="round" fill="none" strokeMiterlimit="10" d="M35.84 22.79l8.08 15.63"/>
-              <path d="M42.31 40.04l-18.33 29.1m22.64-30.18l4.31 17.25h18.33" fill="none" strokeMiterlimit="10" stroke="#fbfbfc" strokeLinecap="round" strokeWidth="5"/>
-            </svg>
-          ));
+          if (playerType === "killer" || playerNumber === c.owner) {
+            result.push((
+              <svg key={x*20 + y} viewBox="0 0 74.87 74.87" width="36" height="36" x={cx} y={cy}>
+                <circle cx="37.44" cy="37.44" r="32.44" stroke={colors[c.owner % colors.length]} strokeWidth="10" fill="none" strokeMiterlimit="10"/>
+                <circle cx="29.91" cy="9.31" r="7.55" fill="#fbfbfc"/>
+                <path d="M10.51 31.95h11.85l10.79-11.86h20.48l6.46 9.71" fill="none" strokeMiterlimit="10" stroke="#fbfbfc" strokeLinecap="round" strokeWidth="5"/>
+                <path strokeWidth="9" stroke="#fbfbfc" strokeLinecap="round" fill="none" strokeMiterlimit="10" d="M35.84 22.79l8.08 15.63"/>
+                <path d="M42.31 40.04l-18.33 29.1m22.64-30.18l4.31 17.25h18.33" fill="none" strokeMiterlimit="10" stroke="#fbfbfc" strokeLinecap="round" strokeWidth="5"/>
+              </svg>
+            ));
+          }
         } else if (c.type === "trap") {
           const cx = gridToScreenCoordinates(x - 0.5) + 4;
           const cy = gridToScreenCoordinates(y + 0.5, maze.height) + 6;

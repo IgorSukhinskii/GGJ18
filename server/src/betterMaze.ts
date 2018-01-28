@@ -185,7 +185,7 @@ export function placeCollectibles(maze: Maze, numberOfPlayers: number, killer: n
         }
     }
     // now place some traps >:D
-    const numberOfTraps = Math.floor(maze.width * maze.height / 100 * 15);
+    const numberOfTraps = Math.floor(maze.width * maze.height / 100 * 10);
     const traps = findCellsAtDistance(
         maze,
         dist,
