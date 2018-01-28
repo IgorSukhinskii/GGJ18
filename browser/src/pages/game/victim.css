@@ -13,6 +13,15 @@
     height: 1000px;
 }
 
+.victim__map--outsider {
+    top: -9999px;
+    bottom: -9999px;
+    left: -9999px;
+    right: -9999px;
+    margin: auto;
+    transform: scale(0.4);
+}
+
 .victim__grid {
     stroke: #66B848;
     stroke-width: 0.5px;

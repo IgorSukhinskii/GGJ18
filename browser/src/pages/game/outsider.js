@@ -1,21 +1,32 @@
 import React, { Component } from 'react';
-import { mazeToSvgPath, gridToScreenCoordinates } from '../../utils/mazeToSvgPath';
+import './victim.css';
+import { mazeToSvgPath, gridToScreenCoordinates, generateGrid } from '../../utils/mazeToSvgPath';
+import killerIcon from '../../components/scores/icon_murderer.svg';
+import saviorIcon from '../../components/scores/icon_survivor.svg';
+import renderCollectibles from '../../utils/renderCollectibles';
 
-class Outsider extends Component {
+class Victim extends Component {
   render() {
     console.log(this.props);
-    const { victimPosition, maze } = this.props;
+    const { victimPosition, maze, playerType } = this.props;
     const cx = gridToScreenCoordinates(victimPosition.x);
     const cy = gridToScreenCoordinates(victimPosition.y, maze.height);
+    const collectibles = renderCollectibles(maze);
     return (
       <div className="victim">
-          <svg width="250" height="250">
-            <path stroke="black" d={mazeToSvgPath(maze)} />
-            <circle fill="red" r="5" cx={cx} cy={cy} />
+          <svg className="victim__map victim__map--outsider">
+            <path className="victim__grid" d={generateGrid(maze)} />
+            <path className="victim__maze" d={mazeToSvgPath(maze)} />
+            <circle className="victim__player" r="16" cx={cx} cy={cy} />
+            {collectibles}
           </svg>
+          <div className="victim__top">
+            <img className="victim__icon" src={playerType === "savior" ? saviorIcon :killerIcon} alt="" />
+            <div className="victim__timer">01:55</div>
+          </div>
       </div>
     );
   }
 }
 
-export default Outsider;
+export default Victim;

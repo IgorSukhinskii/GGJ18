@@ -8,7 +8,6 @@ import victimIcon from '../../components/scores/icon_victim.svg';
 import radar from './radar.svg';
 import radarPointer from './radar_pointer.svg';
 import cover from './bg_game_victim.svg';
-import renderCollectibles from '../../utils/renderCollectibles';
 
 class Victim extends Component {
   onNorthButtonClick() {
@@ -37,15 +36,12 @@ class Victim extends Component {
       hearts.push(heartEmpty);
     }
     const transform = `translate(${-cx}px,${-cy}px)`;
-    console.log(transform);
-    const collectibles = renderCollectibles(maze);
     return (
       <div className="victim">
           <svg className="victim__map" style={{transform}}>
             <path className="victim__grid" d={generateGrid(maze)} />
             <path className="victim__maze" d={mazeToSvgPath(maze)} />
             <circle className="victim__player" r="16" cx={cx} cy={cy} />
-            {collectibles}
           </svg>
           <img className="victim__cover" src={cover} alt="cover" />
           <img className="victim__radar" src={radar} alt="radar" />

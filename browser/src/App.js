@@ -163,7 +163,8 @@ class App extends Component {
         {this.state.currentPage === 'game' && this.state.playerType !== 'victim' && (
           <OutsiderGame
             maze={this.state.maze}
-            victimPosition={this.state.victimPosition} />
+            victimPosition={this.state.victimPosition}
+            playerType={this.state.playerType} />
         )}
         {this.state.currentPage === 'scores' && (
           <Scores
