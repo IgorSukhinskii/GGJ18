@@ -1,4 +1,5 @@
 import shuffle from './shuffle';
+import { exists } from 'fs';
 
 export enum Direction {
     None = 0,
@@ -67,13 +68,96 @@ export function generateMaze(width: number, height: number): Maze {
     return maze;
 }
 
-export function placeCollectibles(maze: Maze, numberOfPlayers: number, killer: number, victim: number) {
+type DistancePairs = Array<Array<Array<Array<number>>>>;
+
+function floydWarshall(maze: Maze): DistancePairs {
+    const dist = [] as DistancePairs;
+    for (let x1 = 0; x1 < maze.width; x1++) {
+        dist.push([]);
+        for (let y1 = 0; y1 < maze.height; y1++) {
+            dist[x1].push([]);
+            for (let x2 = 0; x2 < maze.width; x2++) {
+                dist[x1][y1].push([]);
+                for (let y2 = 0; y2 < maze.height; y2++) {
+                    dist[x1][y1][x2].push(Infinity);
+                }
+            }
+        }
+    }
+
+    for (let x = 0; x < maze.width; x++) {
+        for (let y = 0; y < maze.height; y++) {
+            dist[x][y][x][y] = 0;
+        }
+    }
+    for (let x = 0; x < maze.width; x++) {
+        for (let y = 0; y < maze.height; y++) {
+            for (let d of Direction.directions) {
+                if (maze.cells[x][y].neighbors & d) {
+                    dist[x][y][x + Direction.dX[d]][y + Direction.dY[d]] = 1;
+                    dist[x + Direction.dX[d]][y + Direction.dY[d]][x][y] = 1;
+                }
+            }
+        }
+    }
+    // yob tvoyu mat 6 vlozennyh ciclov
+    for (let xk = 0; xk < maze.width; xk++) {
+        for (let yk = 0; yk < maze.height; yk++) {
+            for (let xi = 0; xi < maze.width; xi++) {
+                for (let yi = 0; yi < maze.height; yi++) {
+                    for (let xj = 0; xj < maze.width; xj++) {
+                        for (let yj = 0; yj < maze.height; yj++) {
+                            if (dist[xi][yi][xj][yj] > dist[xi][yi][xk][yk] + dist[xk][yk][xj][yj]) {
+                                dist[xi][yi][xj][yj] = dist[xi][yi][xk][yk] + dist[xk][yk][xj][yj];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return dist;
+}
+
+function findCellsAtDistance(maze: Maze, start: Position, distanceMin: number, distanceMax: number, count: number): Array<Position> {
+    const dist = floydWarshall(maze);
+    const result = [] as Array<Position>;
+    for (let i = 0; i < count; i++) {
+        const candidates = [] as Array<Position>;
+        while (candidates.length == 0) {
+            const distance = Math.floor(Math.random() * (distanceMax - distanceMin + 1)) + distanceMin;
+            for (let x = 0; x < maze.width; x++) {
+                for (let y = 0; y < maze.height; y++) {
+                    // see if this point has alredy been selected before
+                    let alreadySeen = false;
+                    for (let p of result) {
+                        if (p.x == x && p.y == y) {
+                            alreadySeen = true;
+                        }
+                    }
+                    if (dist[start.x][start.y][x][y] == distance && !alreadySeen) {
+                        candidates.push({x, y});
+                    }
+                }
+            }
+        }
+        result.push(candidates[Math.floor(Math.random() * candidates.length)]);
+    }
+    return result;
+}
+
+export function placeCollectibles(maze: Maze, numberOfPlayers: number, killer: number, victim: number, victimPosition: Position) {
     // first, place the exits for each savior
+    const exits = findCellsAtDistance(
+        maze,
+        victimPosition,
+        Math.floor((maze.height + maze.width) / 1.8),
+        Math.floor((maze.height + maze.width) / 1.5),
+        numberOfPlayers
+    );
     for (let i = 0; i < numberOfPlayers; i++) {
         if (i != killer && i != victim) {
-            // generate exit at a random point in a labyrinth
-            const x = Math.floor(Math.random() * maze.width);
-            const y = Math.floor(Math.random() * maze.height);
+            const {x, y} = exits[i];
             // place the exit with number i
             maze.cells[x][y].collectibles.push({type: "exit", owner: i});
         }
