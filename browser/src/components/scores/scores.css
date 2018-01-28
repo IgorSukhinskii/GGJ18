@@ -3,7 +3,12 @@
 }
 
 .scores__winner {
+    font-size: 36px;
+}
+
+.scores__winner-name {
     font-size: 64px;
+    text-transform: uppercase;
 }
 
 .scores__label {
@@ -13,6 +18,7 @@
 
 .scores__killer, .scores__result{
     font-size: 24px;
+    text-transform: uppercase;
 }
 
 .scores__result {
@@ -59,6 +65,7 @@
 .scores__player-name {
     display: inline-block;
     line-height: 50px;
+    text-transform: uppercase;
 }
 
 .scores__player-score {

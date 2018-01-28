@@ -5,7 +5,9 @@ class Scores extends Component {
 		return (
 			<div className="scores">
 				{this.props.winner ? (
-					<div className="scores__winner">The Winner is <br/>{this.props.winner}</div>
+					<div className="scores__winner">The Winner Is <br/>
+						<span className="scores__winner-name">{this.props.winner}</span>
+					</div>
 				) : (
 					<div>
 						<div className="scores__label">Round results:</div>
