@@ -6,9 +6,11 @@ class Layout extends Component {
 		return (
 			<div className="layout">
 				<header className="layout__header">
-					<h1 className="layout__logo">
+					{!this.props.nologo && (<h1 className="layout__logo">
 						Murder Game
-					</h1>
+					</h1>)
+					}
+
 				</header>
 				<div className="layout__container">
 					{this.props.children}

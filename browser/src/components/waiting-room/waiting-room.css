@@ -1,0 +1,39 @@
+.waiting-room {
+
+}
+
+.waiting-room__room-label {
+    color: white;
+    margin-bottom: 10px;
+    display: inline-block;
+    width: 100%;
+    font-size: 24px;
+}
+
+.waiting-room__room-code {
+    width: 100%;
+    height: 60px;
+    background-color: #101C32;
+    outline: none;
+    border: 6px solid #1E3256;
+    box-sizing: border-box;
+    padding: 12px;
+    color: #6D8ABF;
+    font-size: 20px;
+    line-height: 20px;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.waiting-room__players {
+    list-style: none;
+    color: white;
+    padding: 20px;
+    border: 2px solid #6D8ABF;
+    margin: 0;
+}
+
+.waiting-room__player {
+    font-size: 20px;
+}
