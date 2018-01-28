@@ -62,7 +62,8 @@ function startNewRound(roomCode: string) {
         games[roomCode].maze,
         games[roomCode].players.length,
         games[roomCode].killer,
-        games[roomCode].victim);
+        games[roomCode].victim,
+        games[roomCode].victimPosition);
     forEachPlayer(roomCode, player => {
         player.socket.send(JSON.stringify({
             type: "start",
