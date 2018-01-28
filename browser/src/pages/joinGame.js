@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Button from '../components/button';
+import Layout from '../components/layout';
+import Input from '../components/input';
 
 class JoinGame extends Component {
   constructor(props) {
@@ -16,15 +18,10 @@ class JoinGame extends Component {
   }
   render() {
     return (
-      <div className="start">
-        <header className="start__header">
-          <h1 className="start__title">Murder Transmission House Maze Escape Competitive Cooperative Social Experience with Mobile Devices Multiplayer Party: The Game</h1>
-        </header>
-        <div className="start__container">
-          <input type="text" onChange={this.onRoomCodeInputChange.bind(this)} />
-          <Button onClick={this.onJoinButtonClick.bind(this)} label="Join Game" />
-        </div>
-      </div>
+     <Layout>
+          <Input type="text" id="join-name" label="Enter Game Code" size={4} onChange={this.onRoomCodeInputChange.bind(this)} />
+          <Button onClick={this.onJoinButtonClick.bind(this)} label="Ready!" />
+      </Layout>
     );
   }
 }

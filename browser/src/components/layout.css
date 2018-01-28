@@ -1,0 +1,19 @@
+.layout {
+    text-align: center;
+    background: linear-gradient(#101C32, #214668, #101C32);
+    height: 100%;
+}
+
+.layout__header {
+    padding: 20px;
+    color: white;
+}
+
+.layout__logo {
+    font-size: 60px;
+    font-family: "Comic Sans MS";
+}
+
+.layout__container {
+    padding: 30px;
+}
