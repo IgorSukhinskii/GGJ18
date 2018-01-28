@@ -119,8 +119,13 @@ function floydWarshall(maze: Maze): DistancePairs {
     return dist;
 }
 
-function findCellsAtDistance(maze: Maze, start: Position, distanceMin: number, distanceMax: number, count: number): Array<Position> {
-    const dist = floydWarshall(maze);
+function findCellsAtDistance(maze: Maze,
+    dist: DistancePairs,
+    start: Position,
+    distanceMin: number,
+    distanceMax: number,
+    count: number
+): Array<Position> {
     const result = [] as Array<Position>;
     for (let i = 0; i < count; i++) {
         const candidates = [] as Array<Position>;
@@ -148,8 +153,10 @@ function findCellsAtDistance(maze: Maze, start: Position, distanceMin: number, d
 
 export function placeCollectibles(maze: Maze, numberOfPlayers: number, killer: number, victim: number, victimPosition: Position) {
     // first, place the exits for each savior
+    const dist = floydWarshall(maze);
     const exits = findCellsAtDistance(
         maze,
+        dist,
         victimPosition,
         Math.floor((maze.height + maze.width) / 1.8),
         Math.floor((maze.height + maze.width) / 1.5),
@@ -160,6 +167,21 @@ export function placeCollectibles(maze: Maze, numberOfPlayers: number, killer: n
             const {x, y} = exits[i];
             // place the exit with number i
             maze.cells[x][y].collectibles.push({type: "exit", owner: i});
+        }
+    }
+    // now place some traps >:D
+    const numberOfTraps = Math.floor(maze.width * maze.height / 100 * 5);
+    const traps = findCellsAtDistance(
+        maze,
+        dist,
+        victimPosition,
+        5,
+        Math.floor(maze.height + maze.width),
+        numberOfTraps
+    );
+    for (let {x, y} of traps) {
+        if (maze.cells[x][y].collectibles.length == 0) {
+            maze.cells[x][y].collectibles.push({type: "trap", owner: killer});
         }
     }
 }
