@@ -1,19 +1,15 @@
 import React, { Component } from 'react';
-import Button from '../components/button';
+import Layout from '../components/layout';
+import WaitingRoom from '../components/waiting-room/waiting-room';
 
-class WaitingRoom extends Component {
+class WaitingRoomPage extends Component {
   render() {
     return (
-      <div className="waiting-room">
-        <div className="waiting-room__room-label">Your room code:</div>
-        <div className="waiting-room__room-code">{this.props.roomCode}</div>
-        <ul className="waiting-room__players">
-          {this.props.players.map((player, i) => (<li key={i} className="waiting-room__player">{player.name}</li>))}
-        </ul>
-        <Button label="start" onClick={this.props.onStartGame} />
-      </div>
+        <Layout nologo>
+            <WaitingRoom roomCode={this.props.roomCode} players={this.props.players} onStartGame={this.props.onStartGame}/>
+        </Layout>
     );
   }
 }
 
-export default WaitingRoom;
+export default WaitingRoomPage;
