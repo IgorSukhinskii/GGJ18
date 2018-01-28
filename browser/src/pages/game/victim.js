@@ -6,6 +6,7 @@ import arrow from './victim_control_up.svg';
 import heartEmpty from './heartEmpty.svg';
 import victimIcon from '../../components/scores/icon_victim.svg';
 import radar from './radar.svg';
+import radarPointer from './radar_pointer.svg';
 import cover from './bg_game_victim.svg';
 import renderCollectibles from '../../utils/renderCollectibles';
 
@@ -48,6 +49,7 @@ class Victim extends Component {
           </svg>
           <img className="victim__cover" src={cover} alt="cover" />
           <img className="victim__radar" src={radar} alt="radar" />
+          <img className="victim__radar-pointer" src={radarPointer} alt="radar pointer" />
           <div className="victim__top">
             <img className="victim__icon" src={victimIcon} alt="" />
             <div className="victim__timer">01:55</div>
