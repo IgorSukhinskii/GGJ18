@@ -11,7 +11,7 @@ export default function renderCollectibles(maze) {
       for (let c of cell.collectibles) {
         if (c.type === "exit") {
           const cx = gridToScreenCoordinates(x - 0.5) + 4;
-          const cy = gridToScreenCoordinates(y - 0.5, maze.height) + 6;
+          const cy = gridToScreenCoordinates(y + 0.5, maze.height) + 6;
           result.push((
             <svg key={x*20 + y} viewBox="0 0 74.87 74.87" width="36" height="36" x={cx} y={cy}>
               <circle cx="37.44" cy="37.44" r="32.44" stroke={colors[c.owner % colors.length]} strokeWidth="10" fill="none" strokeMiterlimit="10"/>

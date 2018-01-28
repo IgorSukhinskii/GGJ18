@@ -97,7 +97,7 @@ function finishRound(roomCode: string, payload: FinishRoundPayload) {
         player.socket.send(JSON.stringify({
             type: "finishRound",
             payload: {
-                players: games[roomCode].players.map(p =>({ name: p.name, score: p.score })),
+                players: games[roomCode].players.map(p =>({ name: p.name, score: p.score, playerType: p.type })),
                 result: payload.exitNumber != undefined ? "escape" : "die",
                 exitNumber: payload.exitNumber,
                 victim: games[roomCode].players[games[roomCode].victim].name,

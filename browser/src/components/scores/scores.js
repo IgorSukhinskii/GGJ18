@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import './scores.css';
 class Scores extends Component {
 	render() {
+		const icons = {
+			"savior": "",
+			"killer": "scores__player_killer",
+			"victim": "scores__player_victim"
+		}
 		return (
 			<div className="scores">
 				{this.props.winner ? (
@@ -22,7 +27,7 @@ class Scores extends Component {
 
 				<ul className="scores__players">
 					{this.props.players.map((player, i) => (
-						<li key={i} className="scores__player scores__player_killer">
+						<li key={i} className={`scores__player ${icons[player.playerType]}`}>
 							<span className="scores__player-name">{player.name}</span>
 							<span className="scores__player-score">{player.score}</span>
 						</li>
