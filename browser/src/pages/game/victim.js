@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import './victim.css';
 import { mazeToSvgPath, gridToScreenCoordinates, generateGrid } from '../../utils/mazeToSvgPath';
 import heart from './heart.svg';
+import arrow from './victim_control_up.svg';
 import heartEmpty from './heartEmpty.svg';
+import victimIcon from '../../components/scores/icon_victim.svg';
+import radar from './radar.svg';
 import renderCollectibles from '../../utils/renderCollectibles';
 
 class Victim extends Component {
@@ -42,12 +45,19 @@ class Victim extends Component {
             <circle className="victim__player" r="16" cx={cx} cy={cy} />
             {collectibles}
           </svg>
-          <div className="victim__health">{hearts.map((h, i) => (<img key={i} alt="❤" src={h} className="victim__heart"/>))}</div>
-          <div className="victim__buttons">
-            <div className="victim__button victim__button--n" onClick={this.onNorthButtonClick.bind(this)}>N</div>
-            <div className="victim__button victim__button--s" onClick={this.onSouthButtonClick.bind(this)}>S</div>
-            <div className="victim__button victim__button--e" onClick={this.onEastButtonClick.bind(this)}>E</div>
-            <div className="victim__button victim__button--w" onClick={this.onWestButtonClick.bind(this)}>W</div>
+          <img className="victim__radar" src={radar} alt="radar" />
+          <div className="victim__top">
+            <img className="victim__icon" src={victimIcon} alt="" />
+            <div className="victim__timer">01:55</div>
+            <div className="victim__health">{hearts.map((h, i) => (<img key={i} alt="❤" src={h} className="victim__heart"/>))}</div>
+          </div>
+          <div className="victim__buttons-container">
+            <div className="victim__buttons">
+              <img className="victim__button victim__button--n" src={arrow} alt="N" onClick={this.onNorthButtonClick.bind(this)} />
+              <img className="victim__button victim__button--s" src={arrow} alt="N" onClick={this.onSouthButtonClick.bind(this)} />
+              <img className="victim__button victim__button--e" src={arrow} alt="N" onClick={this.onEastButtonClick.bind(this)} />
+              <img className="victim__button victim__button--w" src={arrow} alt="N" onClick={this.onWestButtonClick.bind(this)} />
+            </div>
           </div>
       </div>
     );

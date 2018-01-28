@@ -3,13 +3,11 @@ import {gridToScreenCoordinates} from './mazeToSvgPath';
 import './collectibles.css';
 
 export default function renderCollectibles(maze) {
-  const colors = ["#0f3d9c", "#0f3d9c"];
+  const colors = ["#0F3D9C", "#A9AC03", "#0B9838", "#990525"];
   const result = [];
   for (let x = 0; x < maze.width; x++) {
     for (let y = 0; y < maze.height; y++) {
       const cell = maze.cells[x][y];
-      const cx = gridToScreenCoordinates(x - 0.5) + 4;
-      const cy = gridToScreenCoordinates(y - 0.5, maze.height) + 6;
       for (let c of cell.collectibles) {
         if (c.type === "exit") {
           const cx = gridToScreenCoordinates(x - 0.5) + 4;
