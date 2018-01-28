@@ -157,7 +157,8 @@ class App extends Component {
             onMoveButtonClick={this.move.bind(this)}
             onRoundEnd={this.onRoundEnd.bind(this)}
             maze={this.state.maze}
-            victimPosition={this.state.victimPosition} />
+            victimPosition={this.state.victimPosition}
+            victimHealth={this.state.victimHealth} />
         )}
         {this.state.currentPage === 'game' && this.state.playerType !== 'victim' && (
           <OutsiderGame

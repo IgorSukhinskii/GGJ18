@@ -34,7 +34,7 @@ function move(pos: Position, d: Direction): Position {
 }
 
 export interface Collectible {
-    type: "exit" | "trap",
+    type: "exit" | "trap" | "medkit",
     owner: number
 }
 
@@ -169,8 +169,23 @@ export function placeCollectibles(maze: Maze, numberOfPlayers: number, killer: n
             maze.cells[x][y].collectibles.push({type: "exit", owner: i});
         }
     }
+    // place a bit of medkits
+    const numberOfMedkits = Math.floor(maze.width * maze.height / 100 * 4);
+    const medkits = findCellsAtDistance(
+        maze,
+        dist,
+        victimPosition,
+        5,
+        Math.floor(maze.height + maze.width),
+        numberOfMedkits
+    );
+    for (let {x, y} of medkits) {
+        if (maze.cells[x][y].collectibles.length == 0) {
+            maze.cells[x][y].collectibles.push({type: "medkit", owner: -1});
+        }
+    }
     // now place some traps >:D
-    const numberOfTraps = Math.floor(maze.width * maze.height / 100 * 5);
+    const numberOfTraps = Math.floor(maze.width * maze.height / 100 * 10);
     const traps = findCellsAtDistance(
         maze,
         dist,

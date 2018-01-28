@@ -26,6 +26,7 @@ class Victim extends Component {
             <path stroke="black" d={mazeToSvgPath(maze)} />
             <circle fill="red" r="5" cx={cx} cy={cy} />
           </svg>
+          <p className="victim__health">{this.props.victimHealth}</p>
           <Button onClick={this.onNorthButtonClick.bind(this)} label="N" />
           <Button onClick={this.onSouthButtonClick.bind(this)} label="S" />
           <Button onClick={this.onEastButtonClick.bind(this)} label="E" />

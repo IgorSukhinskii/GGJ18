@@ -225,6 +225,8 @@ wss.on('connection', (ws: WebSocket) => {
                         }
                     }
                 }
+                games[roomCode].maze.cells[nx][ny].collectibles = [];
+
                 forEachPlayer(roomCode, player => {
                     player.socket.send(JSON.stringify({
                         type: "move",

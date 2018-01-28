@@ -41,6 +41,8 @@ export function mazeToSvgPath(maze) {
                     result += `M ${cx},${cy} m -2,2 v -4 h 4 v 4 h -4 `;
                 } else if (c.type === "trap") {
                     result += `M ${cx},${cy} m -2,-2 l 4,4 M ${cx},${cy} m 2,-2 l -4,4 `
+                } else if (c.type === "medkit") {
+                    result += `M ${cx},${cy} m -2,2 h -2 v -2 h 2 v -2 h 2 v 2 h 2 v 2 h -2 v 2 h -2 v -2 `
                 }
             }
         }
