@@ -6,6 +6,7 @@ import arrow from './victim_control_up.svg';
 import heartEmpty from './heartEmpty.svg';
 import victimIcon from '../../components/scores/icon_victim.svg';
 import radar from './radar.svg';
+import cover from './bg_game_victim.svg';
 import renderCollectibles from '../../utils/renderCollectibles';
 
 class Victim extends Component {
@@ -45,6 +46,7 @@ class Victim extends Component {
             <circle className="victim__player" r="16" cx={cx} cy={cy} />
             {collectibles}
           </svg>
+          <img className="victim__cover" src={cover} alt="cover" />
           <img className="victim__radar" src={radar} alt="radar" />
           <div className="victim__top">
             <img className="victim__icon" src={victimIcon} alt="" />
