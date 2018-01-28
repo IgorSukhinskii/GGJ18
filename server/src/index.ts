@@ -54,8 +54,8 @@ function startNewRound(roomCode: string) {
     games[roomCode].maze = generateMaze(20, 20);
     // TODO: place the victim in the bloody maze
     games[roomCode].victimPosition = {
-        x: Math.floor(Math.random() * 20),
-        y: Math.floor(Math.random() * 20),
+        x: Math.floor(Math.random() * games[roomCode].maze.width),
+        y: Math.floor(Math.random() * games[roomCode].maze.height),
     };
     // TODO: place exits in the maze
     forEachPlayer(roomCode, player => {
@@ -65,11 +65,59 @@ function startNewRound(roomCode: string) {
                 playerType: player.type,
                 maze: games[roomCode].maze,
                 victimPosition: games[roomCode].victimPosition,
-                collectables: []
             }
         }));
     });
 }
+
+function finishRound(roomCode: string, payload: FinishRoundPayload) {
+    forEachPlayer(roomCode, player => {
+        if (player.type == "killer" && payload.exitNumber == undefined) {
+            player.score += scorePerKill;
+        }
+        if (player.type == "savior" && payload.exitNumber != undefined) {
+            player.score += scorePerSave;
+        }
+        if (player.type == "savior" && payload.exitNumber == player.id) {
+            player.score += scorePerOwnSave;
+        }
+        if (player.type == "victim" && payload.exitNumber != undefined) {
+            player.score += scorePerSurvive;
+        }
+    });
+    forEachPlayer(roomCode, player => {
+        player.socket.send(JSON.stringify({
+            type: "finishRound",
+            payload: {
+                scores: {},
+                result: payload.exitNumber != undefined ? "escape" : "die",
+                exitNumber: payload.exitNumber,
+                victim: games[roomCode].players[games[roomCode].victim].name,
+                killer: games[roomCode].players[games[roomCode].killer].name
+            }
+        }));
+    });
+    games[roomCode].victim += 1;
+    // everyone has been a victim once, game over
+    if (games[roomCode].victim >= games[roomCode].players.length) {
+        forEachPlayer(roomCode, player => {
+            player.socket.send(JSON.stringify({
+                type: "endGame",
+                payload: { winner: "Igor" }
+            }));
+        });
+    } else {
+        // start a new round after 10 seconds (i know, i know)
+        setTimeout(() => {
+            startNewRound(roomCode);
+        }, 10000);
+    }
+}
+
+const scorePerKill = 500;
+const scorePerSave = 200;
+const scorePerOwnSave = 300;
+const scorePerSurvive = 200;
 
 wss.on('connection', (ws: WebSocket) => {
     let id = 0;
@@ -147,6 +195,13 @@ wss.on('connection', (ws: WebSocket) => {
                 if (payload.direction == "W" && (games[roomCode].maze.cells[x][y].neighbors & Direction.West)) {
                     games[roomCode].victimPosition.x -= 1;
                 }
+                const nx = games[roomCode].victimPosition.x;
+                const ny = games[roomCode].victimPosition.y;
+                for (let c of games[roomCode].maze.cells[nx][ny].collectibles) {
+                    if (c.type == "exit") {
+                        finishRound(roomCode, {exitNumber: c.owner});
+                    }
+                }
                 forEachPlayer(roomCode, player => {
                     player.socket.send(JSON.stringify({
                         type: "move",
@@ -157,33 +212,7 @@ wss.on('connection', (ws: WebSocket) => {
                 })
             } else if (msg.type == "finishRound") {
                 const payload = msg.payload as FinishRoundPayload;
-                forEachPlayer(roomCode, player => {
-                    player.socket.send(JSON.stringify({
-                        type: "finishRound",
-                        payload: {
-                            scores: {},
-                            result: payload.exitNumber != undefined ? "escape" : "die",
-                            exitNumber: payload.exitNumber,
-                            victim: games[roomCode].players[games[roomCode].victim].name,
-                            killer: games[roomCode].players[games[roomCode].killer].name
-                        }
-                    }));
-                });
-                games[roomCode].victim += 1;
-                if (games[roomCode].victim >= games[roomCode].players.length) { // everyone has been a victim once, game over
-                    forEachPlayer(roomCode, player => {
-                        player.socket.send(JSON.stringify({
-                            type: "endGame",
-                            payload: { winner: "Igor" }
-                        }));
-                    });
-                } else {
-                    // start a new round after 10 seconds (i know, i know)
-                    setTimeout(() => {
-                        startNewRound(roomCode);
-                    }, 10000);
-                    
-                }
+                finishRound(roomCode, payload);
             }
         }
     });
