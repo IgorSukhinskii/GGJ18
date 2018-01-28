@@ -29,7 +29,7 @@ class App extends Component {
       this.setState({
         roomCode: data.payload.roomCode,
         currentPage: 'waitingRoom',
-        players: [this.state.name]
+        players: data.payload.players
       })
     } else if (data.type === 'join') {
       this.setState({
