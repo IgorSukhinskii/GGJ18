@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Button from '../../components/button';
+import './victim.css';
 import { mazeToSvgPath, gridToScreenCoordinates } from '../../utils/mazeToSvgPath';
 
 class Victim extends Component {
@@ -26,10 +27,12 @@ class Victim extends Component {
             <path stroke="black" d={mazeToSvgPath(maze)} />
             <circle fill="red" r="5" cx={cx} cy={cy} />
           </svg>
-          <Button onClick={this.onNorthButtonClick.bind(this)} label="N" />
-          <Button onClick={this.onSouthButtonClick.bind(this)} label="S" />
-          <Button onClick={this.onEastButtonClick.bind(this)} label="E" />
-          <Button onClick={this.onWestButtonClick.bind(this)} label="W" />
+          <div className="victim__buttons">
+			  <div className="victim__button" onClick={this.onNorthButtonClick.bind(this)}>N</div>
+			  <div className="victim__button" onClick={this.onSouthButtonClick.bind(this)}>S</div>
+			  <div className="victim__button" onClick={this.onEastButtonClick.bind(this)}>E</div>
+			  <div className="victim__button" onClick={this.onWestButtonClick.bind(this)}>W</div>
+          </div>
           <Button onClick={this.props.onRoundEnd} label="die" />
       </div>
     );
