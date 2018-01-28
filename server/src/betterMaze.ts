@@ -170,7 +170,7 @@ export function placeCollectibles(maze: Maze, numberOfPlayers: number, killer: n
         }
     }
     // place a bit of medkits
-    const numberOfMedkits = Math.floor(maze.width * maze.height / 100 * 4);
+    const numberOfMedkits = Math.floor(maze.width * maze.height / 100 * 2);
     const medkits = findCellsAtDistance(
         maze,
         dist,
@@ -185,7 +185,7 @@ export function placeCollectibles(maze: Maze, numberOfPlayers: number, killer: n
         }
     }
     // now place some traps >:D
-    const numberOfTraps = Math.floor(maze.width * maze.height / 100 * 10);
+    const numberOfTraps = Math.floor(maze.width * maze.height / 100 * 15);
     const traps = findCellsAtDistance(
         maze,
         dist,
