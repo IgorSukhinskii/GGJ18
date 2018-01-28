@@ -4,7 +4,7 @@ import * as WebSocket from 'ws';
 import * as uuid from 'uuid/v4';
 import { ClientMessage, isInstanceOfClientMessage, CreatePayload, JoinPayload, StartPayload, MovePayload, FinishRoundPayload } from './clientMessage';
 import { Game, Player } from './game';
-import { generateMaze, toSvgPath, Position, Direction } from './betterMaze';
+import { generateMaze, toSvgPath, Position, Direction, placeCollectibles } from './betterMaze';
 import { setTimeout } from 'timers';
 
 const app = express();
@@ -58,6 +58,11 @@ function startNewRound(roomCode: string) {
         y: Math.floor(Math.random() * games[roomCode].maze.height),
     };
     // TODO: place exits in the maze
+    placeCollectibles(
+        games[roomCode].maze,
+        games[roomCode].players.length,
+        games[roomCode].killer,
+        games[roomCode].victim);
     forEachPlayer(roomCode, player => {
         player.socket.send(JSON.stringify({
             type: "start",
@@ -89,7 +94,7 @@ function finishRound(roomCode: string, payload: FinishRoundPayload) {
         player.socket.send(JSON.stringify({
             type: "finishRound",
             payload: {
-                scores: {},
+                players: games[roomCode].players.map(p =>({ name: p.name, score: p.score })),
                 result: payload.exitNumber != undefined ? "escape" : "die",
                 exitNumber: payload.exitNumber,
                 victim: games[roomCode].players[games[roomCode].victim].name,

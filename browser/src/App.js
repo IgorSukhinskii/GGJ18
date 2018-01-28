@@ -35,10 +35,14 @@ class App extends Component {
         players: data.payload.players
       })
     } else if (data.type === 'joinResult') {
-      this.setState({
-        currentPage: 'waitingRoom',
-        players: data.payload.players
-      })
+      if (data.payload.result === 'success') {
+        this.setState({
+          currentPage: 'waitingRoom',
+          players: data.payload.players
+        });
+      } else {
+        alert('Cannot connect to the room');
+      }
     } else if (data.type === 'start') {
       this.setState({
         currentPage: 'game',
@@ -51,12 +55,12 @@ class App extends Component {
         victimPosition: data.payload.position
       });
     } else if (data.type === 'finishRound') {
-      const { killer, result, scores, victim } = data.payload;
+      const { killer, result, players, victim } = data.payload;
       this.setState({
         currentPage: 'scores',
         killer,
         result,
-        scores,
+        players,
         victim
       }) 
     } else if (data.type === 'endGame') {
