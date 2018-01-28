@@ -36,4 +36,5 @@
 
 .waiting-room__player {
     font-size: 20px;
+    text-transform: uppercase;
 }

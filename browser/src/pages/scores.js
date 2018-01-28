@@ -1,27 +1,21 @@
 import React, { Component } from 'react';
+import Layout from '../components/layout';
+import Scores from '../components/scores/scores';
 
-class Scores extends Component {
+class ScoresPage extends Component {
   render() {
     return (
-      <div className="scores">
-        <div className="scores__label">Round results:</div>
-        <div className="scores__killer">{this.props.killer} was the killer!</div>
-        <div className="scores__result">
-          {this.props.result === "escape"
-            ? `${this.props.victim} has managed to escape!`
-            : `${this.props.victim} has perished in this horrible maze!`}
-        </div>
-        {this.props.winner && (
-          <div className="scores__winner">{this.props.winner} has won the run!</div>
-        )}
-        <ul className="scores__players">
-          {this.props.players.map((player, i) => (
-            <li key={i} className="waiting-room__player">{player.name}: {player.score}</li>
-          ))}
-        </ul>
-      </div>
+        <Layout nologo>
+			<Scores
+				killer={this.props.killer}
+				result={this.props.result}
+				victim={this.props.victim}
+				winner={this.props.winner}
+				players={this.props.players}
+			/>
+        </Layout>
     );
   }
 }
 
-export default Scores;
+export default ScoresPage;
