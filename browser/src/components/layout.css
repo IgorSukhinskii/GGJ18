@@ -14,6 +14,11 @@
     font-family: "Comic Sans MS";
 }
 
+.layout__logo-pic {
+    width: 100%;
+    margin: 0 auto;
+}
+
 .layout__container {
     padding: 0 30px;
 }

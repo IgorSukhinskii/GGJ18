@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import logo from './logo.png';
 import './layout.css';
 
 class Layout extends Component {
@@ -6,10 +7,7 @@ class Layout extends Component {
 		return (
 			<div className="layout">
 				<header className="layout__header">
-					{!this.props.nologo && (<h1 className="layout__logo">
-						Murder Game
-					</h1>)
-					}
+					{!this.props.nologo && (<img src={logo} alt="Murder Game" className="layout__logo-pic" />)}
 
 				</header>
 				<div className="layout__container">
