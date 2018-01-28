@@ -243,11 +243,9 @@ wss.on('connection', (ws: WebSocket) => {
             }
         }
     });
-});
 
-wss.on('error', (err) => {
-    // ignore websocket errors
-})
+    ws.on('error', () => console.log('Error, probably disconnect'));
+});
 
 //start our server
 const PORT = process.env.PORT || 8999;
