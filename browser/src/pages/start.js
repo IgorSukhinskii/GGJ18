@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Button from '../components/button';
-import './start.css';
+import Input from '../components/input';
+import Layout from '../components/layout';
 
 class Start extends Component {
   constructor(props) {
@@ -20,19 +21,11 @@ class Start extends Component {
   }
   render() {
     return (
-      <div className="start">
-        <header className="start__header">
-          <h1 className="start__logo">
-            Murder Game
-          </h1>
-        </header>
-        <div className="start__container">
-          <label htmlFor="input-name" className="start__label">Enter Nickname</label>
-          <input type="text" id="input-name" className="start__input" onChange={this.onNameInputChange.bind(this)} />
-          <Button onClick={this.onJoinButtonClick.bind(this)} className="start__button" label="Join Game" />
-          <Button onClick={this.onStartButtonClick.bind(this)} className="start__button" label="Start Game" />
-        </div>
-      </div>
+     <Layout>
+          <Input id="nickname" onChange={this.onNameInputChange.bind(this)} size={10} label="Enter Nickname" />
+          <Button onClick={this.onJoinButtonClick.bind(this)} label="Join Game" />
+          <Button onClick={this.onStartButtonClick.bind(this)} label="Start Game" />
+     </Layout>
     );
   }
 }
